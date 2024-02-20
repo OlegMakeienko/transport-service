@@ -2,7 +2,6 @@ package com.makeienko.communaltransport.service;
 
 import com.makeienko.communaltransport.model.CommunalTransport;
 import com.makeienko.communaltransport.repository.CommunalTransportRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

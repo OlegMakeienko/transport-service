@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "communal_transport")
 @NoArgsConstructor
@@ -20,34 +17,34 @@ public class CommunalTransport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fromPlace")
+    @Column(name = "from_place")
     private String fromPlace;
 
-    @Column(name = "toPlace")
+    @Column(name = "to_place")
     private String toPlace;
 
-    @Column(name = "departureTime")
-    private LocalDateTime departureTime;
+    @Column(name = "departure_time")
+    private String departureTime;
 
-    @Column(name = "arrivalTime")
-    private LocalDateTime arrivalTime;
+    @Column(name = "arrival_time")
+    private String arrivalTime;
 
-    @Column(name = "numberOfTransfers")
+    @Column(name = "number_of_transfers")
     private Integer numberOfTransfers;
 
-    @Column(name = "travelTime")
-    private Duration travelTime;
+    @Column(name = "travel_time")
+    private String travelTime;
 
-    @Column(name = "walkTime")
-    private Duration walkTime;
+    @Column(name = "walk_time")
+    private String walkTime;
 
-    @Column(name = "delayReport")
+    @Column(name = "delay_report")
     private String delayReport;
 
-    @Column(name = "estimatedDelay")
-    private Duration estimatedDelay;
+    @Column(name = "estimated_delay")
+    private String estimatedDelay;
 
-    @Column(name = "isFavourite")
+    @Column(name = "is_favourite")
     private Boolean isFavourite;
 
     @Override

@@ -2,7 +2,6 @@ package com.makeienko.communaltransport.controller;
 
 import com.makeienko.communaltransport.model.CommunalTransport;
 import com.makeienko.communaltransport.service.CommunalTransportService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ public class CommunalTransportController {
 
     @Autowired
     private CommunalTransportService communalTransportService;
-
 
     @GetMapping("/getCommunalRoute")
     public CommunalTransport getCommunalRoute(@RequestParam String fromPlace, @RequestParam String toPlace) {
