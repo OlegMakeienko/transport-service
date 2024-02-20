@@ -4,6 +4,7 @@ import com.makeienko.communaltransport.model.CommunalTransport;
 import com.makeienko.communaltransport.service.CommunalTransportService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,8 @@ public class CommunalTransportController {
     }
 
     @GetMapping("/getAllRoutes")
-    public List<CommunalTransport> getAllRoutes() {
-        return communalTransportService.getAllRoutes();
+    public ResponseEntity<List<CommunalTransport>> getAllRoutes() {
+        List<CommunalTransport> routes = communalTransportService.getAllRoutes();
+        return routes != null && !routes.isEmpty() ? ResponseEntity.ok(routes) : ResponseEntity.noContent().build();
     }
 }

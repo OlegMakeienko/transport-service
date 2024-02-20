@@ -49,4 +49,21 @@ public class CommunalTransport {
 
     @Column(name = "isFavourite")
     private Boolean isFavourite;
+
+    @Override
+    public String toString() {
+        return "CommunalTransport{" +
+                "id=" + id +
+                ", fromPlace='" + fromPlace + '\'' +
+                ", toPlace='" + toPlace + '\'' +
+                ", departureTime=" + departureTime +
+                ", arrivalTime=" + arrivalTime +
+                ", numberOfTransfers=" + numberOfTransfers +
+                ", travelTime=" + travelTime +
+                ", walkTime=" + walkTime +
+                ", delayReport='" + delayReport + '\'' +
+                ", estimatedDelay=" + estimatedDelay +
+                ", isFavourite=" + isFavourite +
+                '}';
+    }
 }
