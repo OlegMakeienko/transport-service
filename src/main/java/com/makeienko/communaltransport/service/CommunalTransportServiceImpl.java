@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 @Service("communalTransportService")
 @Slf4j
@@ -27,8 +27,31 @@ public class CommunalTransportServiceImpl implements CommunalTransportService {
     }
 
     @Override
-    public void reportDelaysAndFaults(Long id, String delayReport, Duration estimatedDelay) {
+    public Optional<CommunalTransport> findById(Long id) {
+        return communalTransportRepository.findById(id);
+    }
 
+    @Override
+    public void reportDelaysAndFaults(Long id, String delayReport, String estimatedDelay) {
+        Optional<CommunalTransport> transport = communalTransportRepository.findById(id);
+        if(transport.isPresent()) {
+            CommunalTransport actualTransport = transport.get();
+            actualTransport.setDelayReport(delayReport);
+            actualTransport.setEstimatedDelay(estimatedDelay);
+            communalTransportRepository.save(actualTransport);
+
+//            // Hämta gångtiden från den enskilda transport-API:en
+//            Duration walkingTime = getWalkingTime(actualTransport.getFromPlace(), actualTransport.getToPlace());
+//
+//            // Om förseningen gör att tiden för resan överstiger gångtiden, föreslå en gå-rutt
+//            if (estimatedDelay.compareTo(walkingTime) > 0) {
+//                actualTransport.setAlternativeRoute("Walking is faster due to delay. Estimated walking time: " + walkingTime);
+//                communalTransportRepository.save(actualTransport);
+//            }
+
+        } else {
+            throw new RuntimeException("No CommunalTransport found with id: " + id);
+        }
     }
 
     @Override

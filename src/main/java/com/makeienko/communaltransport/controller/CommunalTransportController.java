@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/communal-transport")
@@ -30,4 +31,22 @@ public class CommunalTransportController {
         List<CommunalTransport> routes = communalTransportService.getAllRoutes();
         return routes != null && !routes.isEmpty() ? ResponseEntity.ok(routes) : ResponseEntity.noContent().build();
     }
+    @GetMapping("/getDelaysAndFaults")
+    public ResponseEntity<String> getDelaysAndFaults(@RequestParam Long id) {
+        try {
+            Optional<CommunalTransport> transport = communalTransportService.findById(id);
+            if (transport.isPresent()) {
+                CommunalTransport actualTransport = transport.get();
+                String delayReport = actualTransport.getDelayReport();
+                String estimatedDelay = actualTransport.getEstimatedDelay();
+                return new ResponseEntity<>("Delay Report: " + delayReport + ", Estimated Delay: " + estimatedDelay, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("No CommunalTransport found with id: " + id, HttpStatus.NOT_FOUND);
+            }
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
