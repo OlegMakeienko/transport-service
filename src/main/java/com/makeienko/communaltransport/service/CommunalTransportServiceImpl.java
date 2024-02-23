@@ -60,17 +60,31 @@ public class CommunalTransportServiceImpl implements CommunalTransportService {
 
     @Override
     public void markRouteAsFavourite(Long id) {
+        Optional<CommunalTransport> transport = communalTransportRepository.findById(id);
+        if(transport.isPresent()) {
+            CommunalTransport actualTransport = transport.get();
+            actualTransport.setIsFavourite(true);
+            communalTransportRepository.save(actualTransport);
+        } else {
+            throw new RuntimeException("No CommunalTransport found with id: " + id);
+        }
+    }
 
+    @Override
+    public void unmarkRouteAsFavourite(Long id) {
+        Optional<CommunalTransport> transport = communalTransportRepository.findById(id);
+        if(transport.isPresent()) {
+            CommunalTransport actualTransport = transport.get();
+            actualTransport.setIsFavourite(false);
+            communalTransportRepository.save(actualTransport);
+        } else {
+            throw new RuntimeException("No CommunalTransport found with id: " + id);
+        }
     }
 
     @Override
     public List<CommunalTransport> getFavouriteRoutes() {
         return communalTransportRepository.findByIsFavouriteTrue();
-    }
-
-    @Override
-    public void unmarkRouteAsFavourite(Long id) {
-
     }
 
     @Override
