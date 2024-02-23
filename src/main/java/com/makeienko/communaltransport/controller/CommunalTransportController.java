@@ -1,6 +1,7 @@
 package com.makeienko.communaltransport.controller;
 
 import com.makeienko.communaltransport.model.CommunalTransport;
+import com.makeienko.communaltransport.request.MarkAsFavouriteRequest;
 import com.makeienko.communaltransport.service.CommunalTransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,5 +66,13 @@ public class CommunalTransportController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-
+    @PostMapping("/markRouteAsFavourite")
+    public ResponseEntity<Void> markRouteAsFavourite(@RequestBody MarkAsFavouriteRequest request) {
+        if (request.getIsFavourite()) {
+            communalTransportService.markRouteAsFavourite(request.getRouteId());
+        } else {
+            communalTransportService.unmarkRouteAsFavourite(request.getRouteId());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
