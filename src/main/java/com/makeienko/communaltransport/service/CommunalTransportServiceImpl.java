@@ -32,13 +32,12 @@ public class CommunalTransportServiceImpl implements CommunalTransportService {
     }
 
     @Override
-    public void reportDelaysAndFaults(Long id, String delayReport, String estimatedDelay) {
+    public void findBestBetweenTransportAndWalking(Long id, String delayReport, String estimatedDelay) {
         Optional<CommunalTransport> transport = communalTransportRepository.findById(id);
         if(transport.isPresent()) {
             CommunalTransport actualTransport = transport.get();
             actualTransport.setDelayReport(delayReport);
             actualTransport.setEstimatedDelay(estimatedDelay);
-            communalTransportRepository.save(actualTransport);
 
 //            // Hämta gångtiden från den enskilda transport-API:en
 //            Duration walkingTime = getWalkingTime(actualTransport.getFromPlace(), actualTransport.getToPlace());
@@ -66,11 +65,16 @@ public class CommunalTransportServiceImpl implements CommunalTransportService {
 
     @Override
     public List<CommunalTransport> getFavouriteRoutes() {
-        return null;
+        return communalTransportRepository.findByIsFavouriteTrue();
     }
 
     @Override
     public void unmarkRouteAsFavourite(Long id) {
 
+    }
+
+    @Override
+    public List<CommunalTransport> findAllWithDelaysAndFaults() {
+        return null;
     }
 }

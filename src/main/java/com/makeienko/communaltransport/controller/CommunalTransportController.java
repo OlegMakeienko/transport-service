@@ -5,10 +5,7 @@ import com.makeienko.communaltransport.service.CommunalTransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +28,19 @@ public class CommunalTransportController {
         List<CommunalTransport> routes = communalTransportService.getAllRoutes();
         return routes != null && !routes.isEmpty() ? ResponseEntity.ok(routes) : ResponseEntity.noContent().build();
     }
+
     @GetMapping("/getDelaysAndFaults")
-    public ResponseEntity<String> getDelaysAndFaults(@RequestParam Long id) {
+    public ResponseEntity<List<CommunalTransport>> getDelaysAndFaults() {
+        List<CommunalTransport> transportsWithDelaysAndFaults = communalTransportService.findAllWithDelaysAndFaults();
+        if (!transportsWithDelaysAndFaults.isEmpty()) {
+            return new ResponseEntity<>(transportsWithDelaysAndFaults, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getDelaysAndFaults/{routeId}")
+    public ResponseEntity<String> getDelaysAndFaultsById(@PathVariable("routeId") Long id) {
         try {
             Optional<CommunalTransport> transport = communalTransportService.findById(id);
             if (transport.isPresent()) {
@@ -48,5 +56,14 @@ public class CommunalTransportController {
         }
     }
 
+    @GetMapping("/getFavoriteRoutes")
+    public ResponseEntity<List<CommunalTransport>> getFavouriteRoutes() {
+        List<CommunalTransport> transportsWithFavoriteRoutes = communalTransportService.getFavouriteRoutes();
+        if(!transportsWithFavoriteRoutes.isEmpty()) {
+            return new ResponseEntity<>(transportsWithFavoriteRoutes, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 
 }

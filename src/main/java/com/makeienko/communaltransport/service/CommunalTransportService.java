@@ -9,10 +9,13 @@ public interface CommunalTransportService {
     CommunalTransport getCommunalRoute(String fromPlace, String toPlace);
     List<CommunalTransport> getAllRoutes();
     Optional<CommunalTransport> findById(Long id);
-    void reportDelaysAndFaults(Long id, String delayReport, String estimatedDelay);
+
+    void findBestBetweenTransportAndWalking(Long id, String delayReport, String estimatedDelay);
+
     List<CommunalTransport> getDelaysAndFaults();
     void markRouteAsFavourite(Long id);
     List<CommunalTransport> getFavouriteRoutes();
     void unmarkRouteAsFavourite(Long id);
 
+    List<CommunalTransport> findAllWithDelaysAndFaults();
 }
