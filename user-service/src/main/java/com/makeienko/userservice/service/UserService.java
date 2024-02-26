@@ -17,5 +17,9 @@ public class UserService {
             return true;
         } else return false;
     }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 }
 
