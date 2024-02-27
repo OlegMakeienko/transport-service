@@ -97,4 +97,17 @@ public class CommunalTransportServiceImpl implements CommunalTransportService {
         Optional<CommunalTransport> route = communalTransportRepository.findById(routeId);
         return route;
     }
+
+    @Override
+    public void updateDelayReport(Long routeId, String delayReport, String estimatedDelay) {
+        Optional<CommunalTransport> transport = communalTransportRepository.findById(routeId);
+        if(transport.isPresent()) {
+            CommunalTransport actualTransport = transport.get();
+            actualTransport.setDelayReport(delayReport);
+            actualTransport.setEstimatedDelay(estimatedDelay);
+            communalTransportRepository.save(actualTransport);
+        } else {
+            throw new RuntimeException("No CommunalTransport found with id: " + routeId);
+        }
+    }
 }

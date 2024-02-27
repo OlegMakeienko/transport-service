@@ -20,4 +20,7 @@ public interface CommunalTransportService {
     List<CommunalTransport> findAllWithDelaysAndFaults();
 
     Optional<CommunalTransport> getRoute(Long routeId);
+
+    void updateDelayReport(Long routeId, String delayReport, String estimatedDelay);
+
 }

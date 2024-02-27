@@ -1,6 +1,7 @@
 package com.makeienko.communaltransport.controller;
 
 import com.makeienko.communaltransport.model.CommunalTransport;
+import com.makeienko.communaltransport.request.DelayUpdateRequest;
 import com.makeienko.communaltransport.request.MarkAsFavouriteRequest;
 import com.makeienko.communaltransport.service.CommunalTransportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,13 @@ public class CommunalTransportController {
     private CommunalTransportService communalTransportService;
 
     @GetMapping("/{routeId}")
-    public ResponseEntity<CommunalTransport> getRoute(@PathVariable Long routeId) {
+    public ResponseEntity<CommunalTransport> getRouteById(@PathVariable Long routeId) {
         Optional<CommunalTransport> route = communalTransportService.getRoute(routeId);
         return route.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @GetMapping("/getCommunalRoute")
-    public ResponseEntity<CommunalTransport> getCommunalRoute(@RequestParam String fromPlace, @RequestParam String toPlace) {
+    public ResponseEntity<CommunalTransport> getCommunalRouteFromPlaceToPlace(@RequestParam String fromPlace, @RequestParam String toPlace) {
         CommunalTransport result = communalTransportService.getCommunalRoute(fromPlace, toPlace);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -80,5 +81,15 @@ public class CommunalTransportController {
             communalTransportService.unmarkRouteAsFavourite(request.getRouteId());
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/updateDelayReport/{routeId}")
+    public ResponseEntity<Void> updateDelayReport(@PathVariable Long routeId, @RequestBody DelayUpdateRequest request) {
+        try {
+            communalTransportService.updateDelayReport(routeId, request.getDelayReport(), request.getEstimatedDelay());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
