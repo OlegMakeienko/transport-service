@@ -18,6 +18,12 @@ public class CommunalTransportController {
     @Autowired
     private CommunalTransportService communalTransportService;
 
+    @GetMapping("/{routeId}")
+    public ResponseEntity<CommunalTransport> getRoute(@PathVariable Long routeId) {
+        Optional<CommunalTransport> route = communalTransportService.getRoute(routeId);
+        return route.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+    }
+
     @GetMapping("/getCommunalRoute")
     public ResponseEntity<CommunalTransport> getCommunalRoute(@RequestParam String fromPlace, @RequestParam String toPlace) {
         CommunalTransport result = communalTransportService.getCommunalRoute(fromPlace, toPlace);

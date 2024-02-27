@@ -91,4 +91,10 @@ public class CommunalTransportServiceImpl implements CommunalTransportService {
     public List<CommunalTransport> findAllWithDelaysAndFaults() {
         return null;
     }
+
+    @Override
+    public Optional<CommunalTransport> getRoute(Long routeId) {
+        Optional<CommunalTransport> route = communalTransportRepository.findById(routeId);
+        return route;
+    }
 }

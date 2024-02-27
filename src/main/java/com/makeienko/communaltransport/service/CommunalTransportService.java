@@ -18,4 +18,6 @@ public interface CommunalTransportService {
     void unmarkRouteAsFavourite(Long id);
 
     List<CommunalTransport> findAllWithDelaysAndFaults();
+
+    Optional<CommunalTransport> getRoute(Long routeId);
 }
