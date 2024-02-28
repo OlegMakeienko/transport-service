@@ -17,6 +17,10 @@ public class CommunalTransportServiceImpl implements CommunalTransportService {
     private CommunalTransportRepository communalTransportRepository;
 
     @Override
+    public CommunalTransport createCommunalRoute(CommunalTransport newRoute) {
+        return communalTransportRepository.save(newRoute);
+    }
+    @Override
     public CommunalTransport getCommunalRoute(String fromPlace, String toPlace) {
         return communalTransportRepository.findByFromPlaceAndToPlace(fromPlace, toPlace);
     }

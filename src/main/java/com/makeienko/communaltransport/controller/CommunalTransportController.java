@@ -19,6 +19,12 @@ public class CommunalTransportController {
     @Autowired
     private CommunalTransportService communalTransportService;
 
+    @PostMapping("/create")
+    public ResponseEntity<CommunalTransport> createCommunalRoute(@RequestBody CommunalTransport newRoute) {
+        CommunalTransport createdRoute = communalTransportService.createCommunalRoute(newRoute);
+        return ResponseEntity.ok(createdRoute);
+    }
+
     @GetMapping("/{routeId}")
     public ResponseEntity<CommunalTransport> getRouteById(@PathVariable Long routeId) {
         Optional<CommunalTransport> route = communalTransportService.getRoute(routeId);

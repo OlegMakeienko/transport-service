@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommunalTransportService {
+    public CommunalTransport createCommunalRoute(CommunalTransport newRoute);
     CommunalTransport getCommunalRoute(String fromPlace, String toPlace);
     List<CommunalTransport> getAllRoutes();
     Optional<CommunalTransport> findById(Long id);
