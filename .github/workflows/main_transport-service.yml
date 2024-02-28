@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - azure-spring-demo
+name: Build and deploy JAR app to Azure Web App - transport-service
 
 on:
   push:
@@ -36,18 +36,27 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-      
+    permissions:
+      id-token: write #This is required for requesting the JWT
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
       
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_854D7179CA0B4AD6B32824957599AB35 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DF7E0C73F36C402BBF2F2BF02FB6BC55 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6BA349CF73D74B90BBC0C39781AA25CF }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'azure-spring-demo'
+          app-name: 'transport-service'
           slot-name: 'Production'
           package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6B64E7BD750F402EA1A88D28C4CFDEF5 }}
+          
